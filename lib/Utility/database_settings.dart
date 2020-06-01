@@ -44,7 +44,7 @@ class DatabaseHelper{
 
   Future <List<Map<String, dynamic>>> getMailMapList() async{
     Database db= await this.database;
-    var result = await db.query(mailTable, orderBy: '$colSubject ASC');
+    var result = await db.query(mailTable, orderBy: '$colId ASC');
     return result;
   }
 
@@ -67,6 +67,29 @@ class DatabaseHelper{
     List<MailDB> mailList= List<MailDB>();
     for (int i=0; i<count; i++){
       mailList.add(MailDB.fromMapObject(mailMapList[i]));
+    }
+    return mailList;
+  }
+
+
+  Future <List<MailDB>> getSearchList(String sv) async{
+    var mailMapList= await getMailMapList();
+    int count= mailMapList.length;
+
+    List<MailDB> mailList= List<MailDB>();
+    MailDB mailtocheck;
+    String s;
+    String r;
+    String sub;
+    String m;
+    for (int i=0; i<count; i++){
+      mailtocheck=MailDB.fromMapObject(mailMapList[i]);
+      s=mailtocheck.sender;
+      r=mailtocheck.recepient;
+      sub=mailtocheck.subject;
+      m=mailtocheck.mail;
+      if (s.contains(sv) || r.contains(sv) || sub.contains(sv) || m.contains(sv))
+        mailList.add(MailDB.fromMapObject(mailMapList[i]));
     }
     return mailList;
   }

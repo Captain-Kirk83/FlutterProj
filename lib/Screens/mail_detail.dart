@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import '../Models/maildb.dart';
 import '../Utility/database_settings.dart';
 import 'package:intl/intl.dart';
@@ -57,11 +56,13 @@ class EmailDetailState extends State<EmailDetail>{
             IconButton(icon: Icon(Icons.more_vert), onPressed: null)
           ],
         ),
-        body: Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          Row(
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+            children: <Widget>[
+            Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Flexible(child:
@@ -138,7 +139,10 @@ class EmailDetailState extends State<EmailDetail>{
                 alignment: Alignment.center,
                 color: Colors.white,
                 padding: EdgeInsets.fromLTRB(1,1,1,1),
-                child: TextField(
+                child:
+                  TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                   controller: mailController,
                   onChanged: (value){
                     updateMail();
@@ -155,6 +159,7 @@ class EmailDetailState extends State<EmailDetail>{
         ]
       )
     ),
+        )
       )
     );
   }
